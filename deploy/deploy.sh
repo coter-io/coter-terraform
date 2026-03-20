@@ -76,23 +76,23 @@ if [[ ! -f "docker-compose.yml" ]]; then
     exit 1
 fi
 
+# Enable workspace sync profile if GIT_WORKSPACE_REPO or GIT_WORKSPACE_REMOTE is configured
+PROFILES=""
+SYNC_ENABLED=false
+if [[ -f .env ]] && grep -qE '^(GIT_WORKSPACE_REPO|GIT_WORKSPACE_REMOTE)=.+' .env; then
+    PROFILES="--profile sync"
+    SYNC_ENABLED=true
+fi
+
 # Pull
 echo -e "${BOLD}Pull${NC}"
 echo ""
 echo -ne "  Pulling latest image...  "
-if docker compose pull --quiet 2>/dev/null; then
+if docker compose $PROFILES pull --quiet 2>/dev/null; then
     echo -e "${G}done${NC}"
 else
     echo -e "${R}failed${NC}"
     exit 1
-fi
-
-# Enable workspace sync profile if GIT_WORKSPACE_REPO is configured
-PROFILES=""
-SYNC_ENABLED=false
-if [[ -f .env ]] && grep -qE '^GIT_WORKSPACE_REPO=.+' .env; then
-    PROFILES="--profile sync"
-    SYNC_ENABLED=true
 fi
 
 echo ""
