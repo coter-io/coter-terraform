@@ -76,17 +76,6 @@ if [[ ! -f "docker-compose.yml" ]]; then
     exit 1
 fi
 
-# Pull
-echo -e "${BOLD}Pull${NC}"
-echo ""
-echo -ne "  Pulling latest image...  "
-if docker compose pull --quiet 2>/dev/null; then
-    echo -e "${G}done${NC}"
-else
-    echo -e "${R}failed${NC}"
-    exit 1
-fi
-
 # Pre-create workspace directories so Docker doesn't create them as root.
 # When a bind-mount target doesn't exist, Docker creates it owned by root,
 # which causes EACCES errors in the gateway container (runs as uid 1000).
@@ -99,12 +88,23 @@ if [[ -f docker-compose.yml ]]; then
         done
 fi
 
-# Enable workspace sync profile if any GIT_WORKSPACE_REPO_* is configured
+# Enable workspace sync profile if GIT_WORKSPACE_REPO or GIT_WORKSPACE_REMOTE is configured
 PROFILES=""
 SYNC_ENABLED=false
-if [[ -f .env ]] && grep -qE '^GIT_WORKSPACE_REPO(_[A-Z]+)?=.+' .env; then
+if [[ -f .env ]] && grep -qE '^GIT_WORKSPACE_(REPO|REMOTE)(_[A-Z]+)?=.+' .env; then
     PROFILES="--profile sync"
     SYNC_ENABLED=true
+fi
+
+# Pull
+echo -e "${BOLD}Pull${NC}"
+echo ""
+echo -ne "  Pulling latest image...  "
+if docker compose $PROFILES pull --quiet 2>/dev/null; then
+    echo -e "${G}done${NC}"
+else
+    echo -e "${R}failed${NC}"
+    exit 1
 fi
 
 echo ""
