@@ -53,6 +53,12 @@ variable "server_location" {
   default     = "nbg1"
 }
 
+variable "server_enable_ipv4" {
+  description = "Enable a public IPv4 address on the server"
+  type        = bool
+  default     = true
+}
+
 # ============================================
 # Application Configuration
 # ============================================

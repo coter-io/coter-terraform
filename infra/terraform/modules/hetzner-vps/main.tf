@@ -94,7 +94,7 @@ resource "hcloud_server" "main" {
   }
 
   public_net {
-    ipv4_enabled = true
+    ipv4_enabled = var.server_enable_ipv4
     ipv6_enabled = true
   }
 

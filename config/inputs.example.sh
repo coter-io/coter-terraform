@@ -97,3 +97,7 @@ export TF_VAR_tailscale_auth_key=""
 # ============================================
 # export TF_VAR_server_type="cx23"
 # export TF_VAR_server_location="nbg1"
+
+# Enable/disable public IPv4 on the Hetzner server.
+# Set to false for ipv6-only access
+# export TF_VAR_server_enable_ipv4=true

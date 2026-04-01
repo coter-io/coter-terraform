@@ -12,9 +12,14 @@ output "server_name" {
   value       = hcloud_server.main.name
 }
 
+output "server_ip" {
+  description = "The primary IP address for the server (IPv4 if available, otherwise IPv6)"
+  value       = coalesce(hcloud_server.main.ipv4_address, hcloud_server.main.ipv6_address)
+}
+
 output "server_ipv4" {
   description = "The public IPv4 address of the server"
-  value       = hcloud_server.main.ipv4_address
+  value       = var.server_enable_ipv4 ? hcloud_server.main.ipv4_address : null
 }
 
 output "server_ipv6" {
@@ -47,12 +52,12 @@ output "firewall_id" {
 
 output "ssh_command" {
   description = "SSH command to connect as the application user"
-  value       = "ssh ${var.app_user}@${hcloud_server.main.ipv4_address}"
+  value       = "ssh ${var.app_user}@${coalesce(hcloud_server.main.ipv4_address, hcloud_server.main.ipv6_address)}"
 }
 
 output "ssh_command_root" {
   description = "SSH command to connect as root"
-  value       = "ssh root@${hcloud_server.main.ipv4_address}"
+  value       = "ssh root@${coalesce(hcloud_server.main.ipv4_address, hcloud_server.main.ipv6_address)}"
 }
 
 output "tailscale_enabled" {
