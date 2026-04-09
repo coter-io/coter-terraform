@@ -40,7 +40,7 @@ export AWS_SECRET_ACCESS_KEY="$S3_SECRET_KEY"
 # Find your IP: curl -s ifconfig.me
 # After confirming Tailscale SSH works, set this to '[]' and set SERVER_IP="openclaw-prod"
 # below, then re-run: make apply
-export TF_VAR_ssh_allowed_cidrs='["0.0.0.0/0"]'
+export TF_VAR_ssh_allowed_cidrs='["0.0.0.0/0", "::/0"]'
 
 # Fingerprint of your existing Hetzner SSH key (avoids recreating shared keys)
 # List yours: curl -s -H "Authorization: Bearer $HCLOUD_TOKEN" https://api.hetzner.cloud/v1/ssh_keys | jq '.ssh_keys[] | {name, fingerprint}'
@@ -97,3 +97,9 @@ export TF_VAR_tailscale_auth_key=""
 # ============================================
 # export TF_VAR_server_type="cx23"
 # export TF_VAR_server_location="nbg1"
+
+# Enable/disable public IPv4 on the Hetzner server.
+# Set to false for ipv6-only access.
+# Note: IPv6-only is not plug-and-play for image pulls because ghcr.io does not
+# provide IPv6 out of the box. Use a NAT64-capable DNS service when disabling IPv4.
+# export TF_VAR_server_enable_ipv4=true

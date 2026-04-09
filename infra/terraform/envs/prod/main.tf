@@ -63,6 +63,7 @@ module "vps" {
   ssh_allowed_cidrs   = var.ssh_allowed_cidrs
   server_type         = var.server_type
   server_location     = var.server_location
+  server_enable_ipv4  = var.server_enable_ipv4
   app_user            = var.app_user
   app_directory       = var.app_directory
 
@@ -82,7 +83,12 @@ module "vps" {
 # ============================================
 
 output "server_ip" {
-  description = "Public IPv4 address of the OpenClaw server"
+  description = "Primary IP address of the OpenClaw server (IPv4 if available, otherwise IPv6)"
+  value       = module.vps.server_ip
+}
+
+output "server_ipv4" {
+  description = "Public IPv4 address of the OpenClaw server (null when server_enable_ipv4=false)"
   value       = module.vps.server_ipv4
 }
 
