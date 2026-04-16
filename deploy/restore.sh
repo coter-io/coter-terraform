@@ -13,12 +13,13 @@
 
 set -euo pipefail
 
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/ssh-opts.inc.sh"
+
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
 
 VPS_USER="openclaw"
-SSH_OPTS="-o StrictHostKeyChecking=accept-new"
 TERRAFORM_DIR="infra/terraform/envs/prod"
 
 # -----------------------------------------------------------------------------
@@ -91,7 +92,7 @@ echo ""
 echo "Restoring backup..."
 echo ""
 
-ssh $SSH_OPTS "$VPS_USER@$VPS_IP" bash -s "$BACKUP_FILE" << 'REMOTE_SCRIPT'
+ssh "${SSH_OPTS[@]}" "$VPS_USER@$VPS_IP" bash -s "$BACKUP_FILE" << 'REMOTE_SCRIPT'
 set -euo pipefail
 
 BACKUP_FILE="$1"

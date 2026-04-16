@@ -10,12 +10,13 @@
 
 set -euo pipefail
 
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/ssh-opts.inc.sh"
+
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
 
 VPS_USER="openclaw"
-SSH_OPTS="-o StrictHostKeyChecking=accept-new"
 TERRAFORM_DIR="infra/terraform/envs/prod"
 
 # -----------------------------------------------------------------------------
@@ -47,5 +48,5 @@ echo ""
 # Stream logs
 # -----------------------------------------------------------------------------
 
-ssh $SSH_OPTS -t "$VPS_USER@$VPS_IP" \
+ssh "${SSH_OPTS[@]}" -t "$VPS_USER@$VPS_IP" \
     "cd ~/openclaw && docker compose logs -f --tail 100"
