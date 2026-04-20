@@ -268,12 +268,12 @@ else
     echo "  2. Run: make push-env"
     echo "  3. Deploy: make deploy"
 fi
-echo ""
+# echo ""
 
-read -p "Would you like to SSH in now? [y/N] " -n 1 -r
-echo ""
+# read -p "Would you like to SSH in now? [y/N] " -n 1 -r
+# echo ""
 
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Connecting to VPS..."
-    ssh "${SSH_OPTS[@]}" "$VPS_USER@$VPS_IP"
-fi
+# if [[ $REPLY =~ ^[Yy]$ ]]; then
+#     echo "Connecting to VPS..."
+#     ssh "${SSH_OPTS[@]}" "$VPS_USER@$VPS_IP"
+# fi
