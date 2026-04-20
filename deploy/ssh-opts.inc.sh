@@ -1,7 +1,7 @@
-# Shared SSH/SCP options for deploy/*.sh and scripts/*.sh (source this file).
-# Optional: SSH_IDENTITY_FILE when ~/.ssh is not populated (Docker/CI).
-# The key file should be mode 600 or OpenSSH will refuse it.
-SSH_OPTS=( -o StrictHostKeyChecking=accept-new )
+#!/usr/bin/env bash
+# Replaced by deployer: align with MakeService.ssh (CI/Docker; avoids accept-new / agent key mismatch).
+SSH_OPTS=( -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 )
 if [[ -n "${SSH_IDENTITY_FILE:-}" ]]; then
-    SSH_OPTS+=( -i "$SSH_IDENTITY_FILE" )
+  SSH_OPTS+=( -o IdentitiesOnly=yes -i "$SSH_IDENTITY_FILE" )
 fi
+
