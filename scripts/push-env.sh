@@ -13,12 +13,13 @@
 
 set -euo pipefail
 
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../deploy/ssh-opts.inc.sh"
+
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
 
 VPS_USER="openclaw"
-SSH_OPTS="-o StrictHostKeyChecking=accept-new"
 TERRAFORM_DIR="infra/terraform/envs/prod"
 ENV_FILE="secrets/openclaw.env"
 REMOTE_PATH="/home/openclaw/openclaw/.env"
@@ -109,7 +110,7 @@ fi
 echo ""
 echo "[...] Pushing $ENV_FILE to VPS..."
 
-scp $SSH_OPTS "$ENV_FILE" "$VPS_USER@$VPS_IP:$REMOTE_PATH"
+scp "${SSH_OPTS[@]}" "$ENV_FILE" "$VPS_USER@$VPS_IP:$REMOTE_PATH"
 
 echo "[OK] Environment file deployed to $REMOTE_PATH"
 
@@ -120,7 +121,7 @@ echo "[OK] Environment file deployed to $REMOTE_PATH"
 echo ""
 echo "[...] Restarting container..."
 
-ssh $SSH_OPTS "$VPS_USER@$VPS_IP" \
+ssh "${SSH_OPTS[@]}" "$VPS_USER@$VPS_IP" \
     "cd ~/openclaw && docker compose restart 2>/dev/null || echo '[SKIP] No running container to restart'"
 
 echo ""
