@@ -31,7 +31,7 @@ terraform {
       s3 = "https://hel1.your-objectstorage.com"  # Replace with your endpoint
     }
     bucket                      = "coter-tf-state"
-    key                         = "prod/terraform.tfstate"
+    # key                         = "prod/terraform.tfstate"
     region                      = "main"
     skip_credentials_validation = true
     skip_metadata_api_check     = true
