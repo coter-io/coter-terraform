@@ -26,20 +26,20 @@ terraform {
   #
   # For first-time setup, local state (default) is fine. Migrate to remote state later.
   #
-  # backend "s3" {
-  #   endpoints = {
-  #     s3 = "https://REGION.your-objectstorage.com"  # Replace with your endpoint
-  #   }
-  #   bucket                      = "openclaw-tfstate"
-  #   key                         = "prod/terraform.tfstate"
-  #   region                      = "main"
-  #   skip_credentials_validation = true
-  #   skip_metadata_api_check     = true
-  #   skip_region_validation      = true
-  #   skip_requesting_account_id  = true
-  #   skip_s3_checksum            = true
-  #   use_path_style              = true
-  # }
+  backend "s3" {
+    endpoints = {
+      s3 = "https://hel1.your-objectstorage.com"  # Replace with your endpoint
+    }
+    bucket                      = "coter-tf-state"
+    key                         = "prod/terraform.tfstate"
+    region                      = "main"
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+    skip_s3_checksum            = true
+    use_path_style              = true
+  }
 }
 
 # ============================================
