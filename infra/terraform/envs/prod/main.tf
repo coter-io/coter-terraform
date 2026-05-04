@@ -28,10 +28,13 @@ terraform {
   #
   backend "s3" {
     endpoints = {
-      s3 = "https://hel1.your-objectstorage.com"  # Replace with your endpoint
+      s3 = "https://hel1.your-objectstorage.com" # Replace with your endpoint
     }
-    bucket                      = "coter-tf-state"
-    # key                         = "prod/terraform.tfstate"
+    bucket = "coter-tf-state"
+    # key is not set here: Terraform backends cannot use var.project_name. Use partial
+    # configuration — backend.auto.tfbackend (default matches project_name) or:
+    #   export TF_VAR_project_name=myproject
+    #   terraform init -reconfigure -backend-config="key=${TF_VAR_project_name}/prod/terraform.tfstate"
     region                      = "main"
     skip_credentials_validation = true
     skip_metadata_api_check     = true

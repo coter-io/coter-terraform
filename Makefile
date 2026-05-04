@@ -35,7 +35,7 @@ NC     := \033[0m
 
 init: ## Initialize Terraform backend
 	@echo -e "$(GREEN)[INFO]$(NC) Initializing Terraform for $(ENV)..."
-	@cd $(TERRAFORM_DIR) && terraform init
+	@cd $(TERRAFORM_DIR) && terraform init -reconfigure -backend-config="key=${TF_VAR_project_name}/terraform.tfstate"
 
 plan: ## Preview Terraform changes
 	@echo -e "$(GREEN)[INFO]$(NC) Planning Terraform changes for $(ENV)..."
