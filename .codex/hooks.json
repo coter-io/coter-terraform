@@ -1,0 +1,113 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-check-update.js\""
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/majskiy/.nvm/versions/node/v24.13.1/bin/node\" \"/Users/majskiy/Documents/projects/coter/coter-terraform/.codex/hooks/gsd-context-monitor.js\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
