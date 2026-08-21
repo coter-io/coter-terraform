@@ -3,5 +3,7 @@
 SSH_OPTS=( -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 )
 if [[ -n "${SSH_IDENTITY_FILE:-}" ]]; then
   SSH_OPTS+=( -o IdentitiesOnly=yes -i "$SSH_IDENTITY_FILE" )
+elif [[ -n "${SSH_KEY:-}" ]]; then
+  SSH_OPTS+=( -o IdentitiesOnly=yes -i "$SSH_KEY" )
 fi
 
