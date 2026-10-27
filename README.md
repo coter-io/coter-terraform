@@ -23,7 +23,7 @@ For information about OpenClaw itself, see the [OpenClaw documentation](https://
 1. **Terraform** >= 1.5 ([Installation Guide](https://developer.hashicorp.com/terraform/install))
 2. **Hetzner Cloud Account** with API token ([Console](https://console.hetzner.cloud/))
 3. **Hetzner Object Storage** for Terraform state (optional but recommended)
-4. **SSH Key** at `~/.ssh/id_rsa.pub`
+4. **SSH Key** at `~/.ssh/id_rsa.pub` or custom path (see [SSH Configuration](#ssh-configuration))
 5. **Docker configuration repo**: [openclaw-docker-config](https://github.com/andreesg/openclaw-docker-config)
 
 ## Quick Start
@@ -162,6 +162,15 @@ make setup-auth  # Configure Claude subscription auth
 
 ## Configuration
 
+### SSH Configuration
+
+By default, scripts use your SSH agent or the default key names (`id_rsa`, `id_ed25519`). If your key has a different name, set `SSH_KEY` in `config/inputs.sh`:
+
+```bash
+export SSH_KEY="$HOME/.ssh/your_key_name"
+```
+
+
 ### Server Sizing
 
 Default: CX23 (2 vCPU, 4GB RAM)
@@ -176,6 +185,15 @@ See [Hetzner server types](https://www.hetzner.com/cloud#pricing).
 ### Firewall Rules
 
 By default SSH (port 22) is open to `0.0.0.0/0`. Restrict this before going to production.
+
+To expose additional public TCP services through the Hetzner Cloud Firewall, set `TF_VAR_additional_tcp_ports`:
+
+```bash
+# In config/inputs.sh
+export TF_VAR_additional_tcp_ports='[80,443]'
+```
+
+These ports are opened in both the Hetzner Cloud Firewall and the server's UFW firewall. They are exposed to `0.0.0.0/0` and `::/0`. Port 22 remains managed separately by `TF_VAR_ssh_allowed_cidrs`.
 
 **Option A — Restrict to your IP:**
 ```bash
@@ -536,6 +554,8 @@ See [SECURITY.md](SECURITY.md) for the full security policy and threat model.
 
 - Gateway binds to `127.0.0.1` (localhost only) — never exposed directly
 - Access via SSH tunnel or Tailscale Serve
+- `TF_VAR_additional_tcp_ports` opens ports in both the Hetzner Cloud Firewall and UFW on the VPS
+- Use `TF_VAR_additional_tcp_ports` only for services that should be publicly reachable
 - Review `infra/terraform/modules/hetzner-vps/main.tf` for the full firewall rule set
 
 ### API Keys

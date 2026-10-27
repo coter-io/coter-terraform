@@ -26,20 +26,23 @@ terraform {
   #
   # For first-time setup, local state (default) is fine. Migrate to remote state later.
   #
-  # backend "s3" {
-  #   endpoints = {
-  #     s3 = "https://REGION.your-objectstorage.com"  # Replace with your endpoint
-  #   }
-  #   bucket                      = "openclaw-tfstate"
-  #   key                         = "prod/terraform.tfstate"
-  #   region                      = "main"
-  #   skip_credentials_validation = true
-  #   skip_metadata_api_check     = true
-  #   skip_region_validation      = true
-  #   skip_requesting_account_id  = true
-  #   skip_s3_checksum            = true
-  #   use_path_style              = true
-  # }
+  backend "s3" {
+    endpoints = {
+      s3 = "https://hel1.your-objectstorage.com" # Replace with your endpoint
+    }
+    bucket = "coter-tf-state"
+    # key is not set here: Terraform backends cannot use var.project_name. Use partial
+    # configuration — backend.auto.tfbackend (default matches project_name) or:
+    #   export TF_VAR_project_name=myproject
+    #   terraform init -reconfigure -backend-config="key=${TF_VAR_project_name}/prod/terraform.tfstate"
+    region                      = "main"
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+    skip_s3_checksum            = true
+    use_path_style              = true
+  }
 }
 
 # ============================================
@@ -57,24 +60,26 @@ provider "hcloud" {
 module "vps" {
   source = "../../modules/hetzner-vps"
 
-  project_name        = var.project_name
-  environment         = "prod"
-  ssh_key_fingerprint = var.ssh_key_fingerprint
-  ssh_allowed_cidrs   = var.ssh_allowed_cidrs
-  server_type         = var.server_type
-  server_location     = var.server_location
-  server_enable_ipv4  = var.server_enable_ipv4
-  app_user            = var.app_user
-  app_directory       = var.app_directory
+  project_name         = var.project_name
+  environment          = "prod"
+  ssh_key_fingerprint  = var.ssh_key_fingerprint
+  ssh_allowed_cidrs    = var.ssh_allowed_cidrs
+  additional_tcp_ports = var.additional_tcp_ports
+  server_type          = var.server_type
+  server_location      = var.server_location
+  server_enable_ipv4   = var.server_enable_ipv4
+  app_user             = var.app_user
+  app_directory        = var.app_directory
 
   # Security configuration
   enable_tailscale = var.enable_tailscale
 
   cloud_init_user_data = templatefile("${path.module}/../../../cloud-init/user-data.yml.tpl", {
-    app_user           = var.app_user
-    app_directory      = var.app_directory
-    enable_tailscale   = var.enable_tailscale
-    tailscale_auth_key = var.tailscale_auth_key
+    app_user             = var.app_user
+    app_directory        = var.app_directory
+    enable_tailscale     = var.enable_tailscale
+    tailscale_auth_key   = var.tailscale_auth_key
+    additional_tcp_ports = var.additional_tcp_ports
   })
 }
 

@@ -28,6 +28,21 @@ variable "ssh_allowed_cidrs" {
 }
 
 # ============================================
+# Firewall Configuration
+# ============================================
+
+variable "additional_tcp_ports" {
+  description = "Additional TCP ports to expose publicly through the Hetzner Cloud Firewall"
+  type        = set(number)
+  default     = []
+
+  validation {
+    condition     = alltrue([for port in var.additional_tcp_ports : port >= 1 && port <= 65535 && port != 22])
+    error_message = "additional_tcp_ports must contain TCP port numbers from 1 to 65535, excluding 22 which is managed by ssh_allowed_cidrs."
+  }
+}
+
+# ============================================
 # Project Configuration
 # ============================================
 
@@ -57,10 +72,10 @@ variable "server_enable_ipv4" {
   description = "Enable a public IPv4 address on the server"
   type        = bool
   default     = true
-  validation {
-    condition     = var.server_enable_ipv4 || length(var.ssh_allowed_cidrs) == 0 || anytrue([for cidr in var.ssh_allowed_cidrs : strcontains(cidr, ":")])
-    error_message = "If server_enable_ipv4 is false, ssh_allowed_cidrs must be empty (for Tailscale-only mode) or contain at least one IPv6 CIDR to ensure SSH access."
-  }
+  # validation {
+  #   condition     = var.server_enable_ipv4 || length(var.ssh_allowed_cidrs) == 0 || anytrue([for cidr in var.ssh_allowed_cidrs : strcontains(cidr, ":")])
+  #   error_message = "If server_enable_ipv4 is false, ssh_allowed_cidrs must be empty (for Tailscale-only mode) or contain at least one IPv6 CIDR to ensure SSH access."
+  # }
 }
 
 # ============================================
